@@ -1,0 +1,47 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+}
+
+#wrapper{
+    min-height: 100vh;
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+    
+    max-width: 1024px;
+    margin: auto;
+}
+
+#mainpage{
+    flex: 1;
+    width: 100%;
+}
+
+
+form{
+    max-width: 600px;
+    margin: auto;
+}
+
+form p{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+form input, form select, form textarea{
+    padding: 0.5em 0.2em;
+    flex: 1;
+}
+
+form p #newmessage{
+    width:600px;
+}
+
+footer{
+    flex: 0;
+}
