@@ -36,8 +36,9 @@
             );
         }
 
+
         public static function insert($sql){
-            try{
+           /* try{
                 $stmt = self::$bdd->prepare($sql);
                 $result = $stmt->execute();
                 
@@ -48,7 +49,41 @@
             catch(\Exception $e){
                 echo $e->getMessage();
             }
+*/
+            try{
+                $stmt = self::$bdd->prepare($sql);
+                $stmt->execute();
+                //on renvoit l'id de l'enregistrement qui vient d'être ajouté en base, 
+                //pour s'en servir aussitôt dans le controleur
+                return self::$bdd->lastInsertId();
+                
+            }
+            catch(\Exception $e){
+                echo $e->getMessage();
+            }
+
+
         }
+
+
+        public static function update($sql, $params){
+            try{
+                $stmt = self::$bdd->prepare($sql);
+                
+                return $stmt->execute($params);
+                
+            }
+            catch(\Exception $e){
+                echo $e->getMessage();
+            }
+        }
+
+        
+        public static function delete($sql){
+            
+            
+        }
+
 
         /**
          * Cette méthode permet les requêtes de type SELECT

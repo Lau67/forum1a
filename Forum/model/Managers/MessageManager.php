@@ -24,7 +24,7 @@
 
         public function getMessage($messageId){
             $messages = "SELECT id_message, texte, DATE_FORMAT(datecreation, \'%d/%m/%Y à %Hh%imin%ss\') AS datecreation
-                        FROM '.$this->tableName.' 
+                        FROM ".$this->tableName."
                         WHERE sujet_id = ? 
                         ORDER BY datecreation DESC
                         ";
@@ -48,7 +48,7 @@
 
     public function findBySujet($idSujet){
         $sql = "SELECT *
-                FROM '.$this->tableName.' 
+                FROM ".$this->tableName." 
                 WHERE sujet_id = :idsujet
                 ";
 

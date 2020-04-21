@@ -171,7 +171,7 @@
 
            
             $sujet = $sman->findOneById($idsujet);
-            $messages = $sman->findBySujet($idsujet);
+            $messages = $mman->findBySujet($idsujet);
 
             return [
                 "view" => VIEW_DIR."forum/liste_sujet.php",

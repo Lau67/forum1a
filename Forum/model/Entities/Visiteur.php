@@ -125,7 +125,7 @@
             
         public function __toString()
         {
-                return $this->pseudonyme;
+                return $this->getPseudonyme();
         }
 
     }

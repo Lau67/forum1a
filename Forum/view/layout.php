@@ -49,6 +49,8 @@
                         }
                     ?>
                 
+                        <span><?= App\Session::getVisiteur()?></span>
+
                 </nav>
             </header>
             

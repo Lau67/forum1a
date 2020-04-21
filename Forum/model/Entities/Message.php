@@ -35,7 +35,7 @@
          */ 
         public function getTexte()
         {
-                return $this->nom;
+                return $this->texte;
         }
 
         /**

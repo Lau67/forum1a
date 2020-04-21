@@ -28,7 +28,7 @@
 
         public function getSujets(){
             $req = "SELECT id_sujet, titre, DATE_FORMAT(datecreation, \'%d/%m/%Y à %Hh%imin%ss\') AS datecreation
-                    FROM '.$this->tableName.' 
+                    FROM ".$this->tableName." 
                     ORDER BY datecreation DESC LIMIT 0, 15
                     ";
 
@@ -38,7 +38,7 @@
 
         public function getSujet($sujetId){                      
             $req = "SELECT id_sujet, titre, texte, DATE_FORMAT(datecreation, \'%d/%m/%Y à %Hh%imin%ss\') AS datecreation
-                    FROM '.$this->tableName.' 
+                    FROM ".$this->tableName." 
                     WHERE id_sujet = ?
                     ";
 
@@ -49,6 +49,25 @@
         }
 
 
+        public function verrouillage($idSujet, $verrouillageNumber){
+
+            $sql= "UPDATE sujet SET verrouillage = :verrouillageNumber WHERE id_sujet = :id";
+
+            return DAO::update($sql, ["verrouillageNumber" => $verrouillageNumber, "id" => $idSujet]);
+
+        }
+
+
+        public function fermer($idSujet){
+
+            $sql = "SELECT verrouillage 
+                    FROM sujet
+                    WHERE id_sujet = :id";
+
+            return $this->getSingleScalarResult(
+                DAO::select($sql, ["id" => $idSujet], false)
+            );
+        }
     }
 
 

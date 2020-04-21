@@ -42,6 +42,8 @@
 
         public function ajoutSujet(){
 
+            $this->restrictTo("ROLE_USER");
+
             if(!empty($_POST)){
                 $titre = filter_input(INPUT_POST, "titre", FILTER_SANITIZE_STRING);
                 $texte = filter_input(INPUT_POST, "texte", FILTER_SANITIZE_STRING);
@@ -81,7 +83,11 @@
 
         public function ajoutMessage($idSujet){
 
-            if(!empty($_POST)){
+            $this->restrictTo("ROLE_USER");
+
+            $sujetManager = new SujetManager();
+
+            if(!empty($_POST) && !$sujetManager->fermer($idSujet)){
                
                 $texte = filter_input(INPUT_POST, "texte", FILTER_SANITIZE_STRING);
 
@@ -101,10 +107,34 @@
                     $this->redirectTo("foruma", "afficheSujet", $idSujet);
 
                 }
-
+                else Session::addFlash("error", "Syntaxe incorrect");
             }
                          
             $this->redirectTo("foruma");
+        }
+
+
+        public function verrouillageSujet($idSujet){
+
+            $this->restrictTo("ROLE_USER");
+
+            $sujetManager = new SujetManager();
+
+            $sujet = $sujetManager->findOneById($idSujet);
+
+            if(Session::isAdmin() || $sujet->getVisiteur()->getAdressemail() === Session::getVisiteur()->getAdressemail())
+
+                 $verrouillageNumber = ($sujet->getVerrouillage()) ? "0" : "1";
+           
+                 if($sujetManager->verrouillage($idSujet, $verrouillageNumber)){
+                    Session::addFlash("success", "Sujet verrouillé");
+                
+            }
+            else{
+                    Session::addFlash("error", "Une erreur est survenue");
+            }
+            $this->redirectTo("foruma", "afficheSujet", $idSujet);
+
         }
 
     }
