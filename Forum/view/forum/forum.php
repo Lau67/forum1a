@@ -21,8 +21,18 @@
                     <?= $sujet->getTitre() ?></a></td>
                 <td> par <?= $sujet->getVisiteur()->getPseudonyme() ?></td>
                 <td> le <?= $sujet->getDatecreation() ?></td>
-                <td><a href="index.php?ctrl=foruma&action=supprimeMessage&id=<?= $sujet->getId() ?>">Supprimer</a></td>
                 <td> cloturé: <?= $sujet->getVerrouillage() ? "Oui" : "Non" ?></td>
+                
+                <?php
+                if(app\Session::isAdmin() || app\Session::getVisiteur()->getId() == $sujet->getVisiteur()->getId()){
+                ?>
+                
+                <td><a href="index.php?ctrl=foruma&action=supprimeMessage&id=<?= $sujet->getId() ?>">Supprimer</a></td>
+                
+                <?php
+                }
+                ?>
+                
             </tr>
             <?php
         }

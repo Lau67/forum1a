@@ -10,7 +10,7 @@
         foreach($sujets as $s){
 ?>
 
-<a href='?ctrl=forum&action=listeParSujet&id=", $s->getId(), "'> sujet "</a>&nbsp;";
+<a href='?ctrl=forum&action=listeParSujet&id=", $s->getId(), "'> sujet "</a>;";
 
 <div class="">
         <h4>
@@ -22,7 +22,7 @@
         <p>
             <?=($sujet->getTexte()) ?>
             <br />
-            <em><a href="index.php?ctrl=forum&amp;action=afficheMessages&amp;id=<?= $topic->getId() ?>">Messages</a></em>
+            <em><a href="index.php?ctrl=forum;action=afficheMessage;id=<?= $topic->getId() ?>">Messages</a></em>
         </p>
 </div>
 

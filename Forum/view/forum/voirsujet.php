@@ -51,7 +51,14 @@ if(!empty($messages)){
     </td>
     <td> par <?=$message->getVisiteur()?></td>
     <td> le <?=$message->getDatecreation()?></td>
+    
+    <?php
+    if(app\Session::isAdmin() || app\Session::getVisiteur()->getId() == $message->getVisiteur()->getId()){
+    ?>
     <td><a href="index.php?ctrl=foruma&action=modifMessage&id=<?= $message->getId()?>">Modifier</a></td>
+<?php
+    }
+?>
 </tr>
 
 <?php      

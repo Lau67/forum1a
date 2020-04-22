@@ -157,6 +157,8 @@ class ForumaController extends AbstractController implements ControllerInterface
         
         public function modifMessage($idMessage){
            
+            $this->restrictTo("ROLE_USER");
+
             $messageManager = new MessageManager();
             $message = $messageManager->findOneById($idMessage);
             $idSujet = $message->getSujet()->getId();
