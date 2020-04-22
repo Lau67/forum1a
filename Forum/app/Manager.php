@@ -74,10 +74,8 @@
                     WHERE id_".$this->tableName." = :id
                     ";
 
-            return $this->getOneOrNullResult(
-                DAO::delete($sql, ['id' => $id], false), 
-                $this->className
-            );
+            return 
+                DAO::delete($sql, ['id' => $id]);
         }
 
 

@@ -79,8 +79,16 @@
         }
 
         
-        public static function delete($sql){
-            
+        public static function delete($sql, $params){
+            try{
+                $stmt = self::$bdd->prepare($sql);
+                
+                return $stmt->execute($params);
+                
+            }
+            catch(\Exception $e){
+                echo $e->getMessage();
+            }
             
         }
 

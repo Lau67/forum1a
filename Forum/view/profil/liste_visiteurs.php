@@ -7,7 +7,7 @@
 <ul>
 <?php
     foreach($visiteurs as $visiteur){
-        echo "<li>", $visiteur->getPseudonyme(), ", inscrit depuis le ", $visiteur->getDateinscription(), " ,>>> adresse mail: ", $visiteur->getAdressemail(), "</li>";
+        echo "<li>", $visiteur->getPseudonyme(), ", inscrit depuis le ", $visiteur->getDateinscription(), " >>> adresse mail: ", $visiteur->getAdressemail(), "</li>";
     }
     
 ?>

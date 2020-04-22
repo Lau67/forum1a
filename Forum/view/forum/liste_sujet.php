@@ -3,7 +3,7 @@
     $messages   = $result["data"]["message"];
 ?>
 
-<h1>Liste des sujets</h1>
+<h1>Liste des sujets:</h1>
 
 <?php
     if(!empty($sujets)){

@@ -5,11 +5,11 @@
 
 <h1>Bienvenue sur Forum</h1>
 
-<h4>Forum est un forum de discussions, de débats et d'entraide </h4>
+<h2>Forum est un forum de discussions, de débats et d'entraide. </h2>
 <br>
 
 
-<p>Liste des sujets:</p>
+<h3>Liste des sujets:</h3>
 <table>
     
     <?php
@@ -21,6 +21,7 @@
                     <?= $sujet->getTitre() ?></a></td>
                 <td> par <?= $sujet->getVisiteur()->getPseudonyme() ?></td>
                 <td> le <?= $sujet->getDatecreation() ?></td>
+                <td><a href="index.php?ctrl=foruma&action=supprimeMessage&id=<?= $sujet->getId() ?>">Supprimer</a></td>
                 <td> cloturé: <?= $sujet->getVerrouillage() ? "Oui" : "Non" ?></td>
             </tr>
             <?php

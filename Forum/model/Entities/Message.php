@@ -76,7 +76,8 @@
          */ 
         public function getDatecreation()
         {
-                return $this->datecreation;
+                $formatDate = $this->datecreation->format("d/m/Y, H:i:s");
+                return $formatDate;
         }
 
         /**
@@ -86,8 +87,7 @@
          */ 
         public function setDatecreation($datecreation)
         {
-                $this->datecreation = $datecreation;
-
+                $this->datecreation = new \DateTime($datecreation);
                 return $this;
         }
 

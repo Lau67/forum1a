@@ -1,31 +1,31 @@
 <?php
 
-	$user = $result['data']['visiteur'];
+	$visiteur = $result['data'];
 	
 ?>
 
 
 <section id="profil">
 	
-    <h2><?= $user ?></h2>
+    <h2>Profil</h2>
     
     <div id="profil-info">
 		<dl>
 			<dt>Nom d'utilisateur :</dt>
-			<dd><?= $user->getPseudonyme()?></dd>
+			<?= $visiteur->getPseudonyme()?>
 			
 			<dt>Adresse e-mail :</dt>
-            <dd><?= $user->getAdressemail()?></dd>
+            <dd><?= $visiteur->getAdressemail()?></dd>
             
 			<dt>Membre depuis le :</dt>
-            <dd><?= $user->getDateinscription()?></dd>
+            <dd><?= $visiteur->getDateinscription()?></dd>
             
             <dt>Rôle :</dt>
-            <dd><?= $user->getRole()?></dd>
+            <dd><?= $visiteur->getRole()?></dd>
         </dl>
         
         <?php
-		if(Session::getVisiteur() == $user){
+		if(app\Session::getVisiteur() == $visiteur){
             ?>
             
 			<p>

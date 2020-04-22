@@ -4,9 +4,11 @@
     use app\Session;
 	use model\Managers\VisiteurManager;
 	use app\AbstractController;
-	//define("VIEW_DIR", "security/");
+use App\ControllerInterface;
+
+//define("VIEW_DIR", "security/");
 	
-	class SecurityController extends AbstractController { 
+	class SecurityController extends AbstractController implements ControllerInterface { 
 		
 		//private $manager;
 		

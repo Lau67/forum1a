@@ -59,4 +59,13 @@
     }
 
 
+    public function modifMessage($id, $texte){
+        
+        $sql= "UPDATE message SET texte = :texte WHERE id_message = :id";
+
+            return DAO::update($sql, ["texte" => $texte, "id" => $id]);
+
+    }
+
+
     }

@@ -5,8 +5,9 @@
     use model\Managers\SujetManager;
     use model\Managers\MessageManager;
     use app\AbstractController;
+use App\ControllerInterface;
 
-    class ForumaController extends AbstractController{
+class ForumaController extends AbstractController implements ControllerInterface{
 
         public function index(){
           // if(Session::authenticationRequired()){
@@ -23,7 +24,7 @@
             }
 
 
-        public function afficheSujet($id){
+        public function afficheSujet($id, $idMessage = null){
 
             $this->restrictTo("ROLE_USER");
            
@@ -34,8 +35,9 @@
                  "view" => VIEW_DIR."forum/voirsujet.php",
                  "data" => [
                      "sujet"=> $sujetManager->findOneById($id),
-                     "messages"=> $messageManager->findBySujet($id)
-                 ]
+                     "messages"=> $messageManager->findBySujet($id),
+                     "messageModif"=> $idMessage
+                     ]
              ];
              }
 
@@ -89,7 +91,7 @@
 
             if(!empty($_POST) && !$sujetManager->fermer($idSujet)){
                
-                $texte = filter_input(INPUT_POST, "texte", FILTER_SANITIZE_STRING);
+                $texte = filter_input(INPUT_POST, "texte", FILTER_UNSAFE_RAW);
 
                 if($texte && !$this->detectTags($texte)){
 
@@ -122,19 +124,54 @@
 
             $sujet = $sujetManager->findOneById($idSujet);
 
-            if(Session::isAdmin() || $sujet->getVisiteur()->getAdressemail() === Session::getVisiteur()->getAdressemail())
+            if(Session::isAdmin() || $sujet->getVisiteur()->getAdressemail() === Session::getVisiteur()->getAdressemail()){
 
-                 $verrouillageNumber = ($sujet->getVerrouillage()) ? "0" : "1";
+                 $verrouillageNumber = ($sujet->getVerrouillage() == 1) ? "0" : "1";
            
-                 if($sujetManager->verrouillage($idSujet, $verrouillageNumber)){
-                    Session::addFlash("success", "Sujet verrouillé");
-                
+                 if($sujetManager->verrouillage($idSujet, $verrouillageNumber));
+                 $messageV = ($verrouillageNumber == 1) ? "verrouillé" : "déverrouillé";
+                    Session::addFlash("success", "Sujet $messageV ");
             }
             else{
                     Session::addFlash("error", "Une erreur est survenue");
             }
+            
             $this->redirectTo("foruma", "afficheSujet", $idSujet);
 
         }
+
+
+        public function supprimeMessage($idSujet){
+           
+            $this->restrictTo("ROLE_USER");
+            
+            $sujetManager = new SujetManager();
+
+            if($sujetManager->delete($idSujet)){
+                Session::addFlash("success", "Sujet supprimé");
+            }
+            $this->redirectTo("foruma");
+            
+        }
+
+        
+        public function modifMessage($idMessage){
+           
+            $messageManager = new MessageManager();
+            $message = $messageManager->findOneById($idMessage);
+            $idSujet = $message->getSujet()->getId();
+
+            if(!empty($_POST)){
+                $nouveauTexte = filter_input(INPUT_POST, "nouveauTexte", FILTER_UNSAFE_RAW);
+                $messageManager->modifMessage($idMessage, $nouveauTexte);
+                Session::addFlash("success", "Message modifié");
+                $this->redirectTo("foruma", "afficheSujet", $idSujet);
+            }
+
+            
+
+            return $this->afficheSujet($idSujet, $idMessage);
+        }
+
 
     }

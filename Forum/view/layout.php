@@ -29,6 +29,8 @@
                         <a href="index.php">Accueil</a>
                     </h1>
 
+                    <span>Bonjour <a href="index.php?ctrl=forum&action=user"><?= App\Session::getVisiteur()?></a></span>
+                   
                     <?php
                         if(App\Session::getVisiteur()){
                     ?>
@@ -49,7 +51,7 @@
                         }
                     ?>
                 
-                        <span><?= App\Session::getVisiteur()?></span>
+                        
 
                 </nav>
             </header>

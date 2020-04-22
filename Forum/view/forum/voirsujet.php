@@ -2,11 +2,14 @@
 
 $sujet = $result["data"]["sujet"];
 $messages = $result["data"]["messages"];
+$messageModif = $result["data"]["messageModif"];
 ?>
 
-<h1><?=$sujet->getTitre()?></h1> <?= $sujet->getVerrouillage() ? "- (Verrouillé)" : ""?>
+<a href="index.php?ctrl=foruma">Retour à la liste des sujets</a>
+
+<h1><?=$sujet->getTitre()?><?= $sujet->getVerrouillage() ? " - (Cloturé)" : ""?></h1> 
 <h4>
-    Par <?= $sujet->getVisiteur()->getPseudonyme()?> -
+    Par <?= $sujet->getVisiteur()->getPseudonyme()?> le <?= $sujet->getDatecreation()?> -
 <?php
     if(App\Session::isAdmin() || App\Session::getVisiteur()->getAdressemail() === $sujet->getVisiteur()->getAdressemail()){
 ?>
@@ -19,12 +22,37 @@ $messages = $result["data"]["messages"];
     
 </h4>
 
+<h3>Messages du sujet:</h3>
+
+<table>
+
 <?php
 if(!empty($messages)){
     foreach($messages as $message){
 ?>
 
-<p><?=$message->getTexte()?></p> par <?=$message->getVisiteur()?> le <?=$message->getDatecreation()?>
+<tr>
+    <td>
+        <?php
+            if($message->getId() === $messageModif){
+        ?>
+                <form action="index.php?ctrl=foruma&action=modifMessage&id=<?= $message->getId()?>" method="post">
+                    <textarea name="nouveauTexte" id="" cols="60" rows="6"><?=$message->getTexte()?></textarea>
+                    <p><input id="valid" type='submit' value="Modifier le Message"></p>
+                </form>
+        <?php       
+            }
+            else{
+        ?>
+            <?=$message->getTexte()?>
+        <?php       
+            }
+        ?>   
+    </td>
+    <td> par <?=$message->getVisiteur()?></td>
+    <td> le <?=$message->getDatecreation()?></td>
+    <td><a href="index.php?ctrl=foruma&action=modifMessage&id=<?= $message->getId()?>">Modifier</a></td>
+</tr>
 
 <?php      
     }
@@ -32,21 +60,23 @@ if(!empty($messages)){
 else echo "Pas de messages disponibles"; 
 ?>
 
+</table>
+
 <?php
     if($sujet->getVerrouillage()){
 ?>        
-            <p>Sujet Verrouillé</p>
+            <p><strong> Sujet Verrouillé <strong></p>
 <?php           
     }
     else{
 ?>
 
-<h3>Participer au sujet</h3>
+<h3>Participer au sujet:</h3>
 
 <form action="index.php?ctrl=foruma&action=ajoutMessage&id=<?= $sujet->getId()?>" method="post">
     
     <p><label for="message">Message:</label></p>
-    <p><textarea id="newmessage" name="texte" placeholder="Tapez votre message" rows="6"></textarea></p><br>
+    <p><textarea id="newmessage" name="texte" placeholder="Tapez votre message" cols="30" rows="6"></textarea></p><br>
 
     <p>
         <input id="valid" type='submit' value="Ajouter le Message">

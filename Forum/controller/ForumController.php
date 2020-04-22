@@ -6,8 +6,9 @@
     use model\Managers\MessageManager;
     use model\Managers\VisiteurManager;
     use app\AbstractController;
+use App\ControllerInterface;
 
-    class ForumController extends AbstractController{
+class ForumController extends AbstractController implements ControllerInterface{
 
         public function index(){
 
@@ -33,6 +34,22 @@
                 //header("location: index.php");
             //die();
             }
+        }
+
+
+        public function user(){
+           
+            $id = Session::getVisiteur() -> getId() ;
+            $manager = new VisiteurManager();
+            $visiteur = $manager->findOneById($id);
+
+            return [
+                "view" => VIEW_DIR."profil/voir_profil.php",
+                "data" => [
+                    "visiteur" => $visiteur
+                ]
+            ];
+           
         }
 
         /*public function ajax(){
